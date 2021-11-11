@@ -55,6 +55,20 @@ async function run() {
 
         })
 
+        //POST API for storing users on database
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+
+            console.log(user)
+
+            const result = await usersCollection.insertOne(user);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
+
+        })
+
     } finally {
         //await client.close();
     }
