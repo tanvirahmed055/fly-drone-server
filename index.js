@@ -40,6 +40,21 @@ async function run() {
             res.json(result);
         })
 
+        //GET API for getting a product
+        app.get('/product', async (req, res) => {
+
+            const productId = req.query.id;
+            console.log(productId);
+
+            // Query for a product
+            const query = { _id: ObjectId(productId) };
+
+            const product = await productsCollection.findOne(query);
+
+            res.json(product);
+
+        })
+
     } finally {
         //await client.close();
     }
