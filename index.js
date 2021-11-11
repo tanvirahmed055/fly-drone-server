@@ -23,6 +23,7 @@ async function run() {
         const database = client.db("flyXdrone_Db");
         const usersCollection = database.collection("users");
         const productsCollection = database.collection("products");
+        const ordersCollection = database.collection("orders");
 
 
         //GET API for getting all products
@@ -62,6 +63,21 @@ async function run() {
             console.log(user)
 
             const result = await usersCollection.insertOne(user);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
+
+        })
+
+
+        //POST API for storing orders on database
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+
+            console.log(order)
+
+            const result = await ordersCollection.insertOne(order);
 
             console.log(`A document was inserted with the _id: ${result.insertedId}`);
 
