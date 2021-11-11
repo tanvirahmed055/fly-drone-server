@@ -56,11 +56,33 @@ async function run() {
 
         })
 
+        //GET API for deleting a order
+        app.delete('/deleteOrder/:id', async (req, res) => {
+
+            const orderId = req.params.id;
+            console.log(orderId);
+
+            // Query for a order
+            const query = { _id: ObjectId(orderId) };
+
+
+            const result = await ordersCollection.deleteOne(query);
+
+            if (result.deletedCount === 1) {
+                console.log("Successfully deleted one document.");
+            } else {
+                console.log("No documents matched the query. Deleted 0 documents.");
+            }
+
+            res.json(result);
+
+        })
+
         //GET API for getting all orders of a specific user
         app.get('/orders', async (req, res) => {
 
             const email = req.query.email;
-            console.log(email);
+            //console.log(email);
 
             // Query for orders with this email
             const query = { email: email };
