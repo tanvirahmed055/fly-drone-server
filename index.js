@@ -16,12 +16,35 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-client.connect(err => {
-    const collection = client.db("flyXdrone").collection("users");
-    // perform actions on the collection object
-    console.log(uri);
-    console.log("connected to database");
-});
+
+async function run() {
+    try {
+        await client.connect();
+        const database = client.db("flyXdrone_Db");
+        const usersCollection = database.collection("users");
+        const productsCollection = database.collection("products");
+
+
+        //GET API for getting all products
+        app.get('/products', async (req, res) => {
+            // query for products
+            const query = {};
+
+            const cursor = productsCollection.find(query);
+            // print a message if no documents were found
+            if ((await cursor.count()) === 0) {
+                console.log("No documents found!");
+            }
+
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+
+    } finally {
+        //await client.close();
+    }
+}
+run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
