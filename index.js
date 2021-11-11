@@ -56,6 +56,27 @@ async function run() {
 
         })
 
+        //GET API for getting all orders of a specific user
+        app.get('/orders', async (req, res) => {
+
+            const email = req.query.email;
+            console.log(email);
+
+            // Query for orders with this email
+            const query = { email: email };
+
+            const cursor = await ordersCollection.find(query);
+
+            // print a message if no documents were found
+            if ((await cursor.count()) === 0) {
+                console.log("No documents found!");
+            }
+            // replace console.dir with your callback to access individual elements
+            const result = await cursor.toArray();
+
+            res.json(result);
+        })
+
         //POST API for storing users on database
         app.post('/users', async (req, res) => {
             const user = req.body;
