@@ -96,6 +96,29 @@ async function run() {
 
         })
 
+        //GET API for deleting a product
+        app.delete('/deleteProduct/:id', async (req, res) => {
+
+            const productId = req.params.id;
+            console.log(productId);
+
+            // Query for a product
+
+            const query = { _id: ObjectId(productId) };
+
+
+            const result = await productsCollection.deleteOne(query);
+
+            if (result.deletedCount === 1) {
+                console.log("Successfully deleted one document.");
+            } else {
+                console.log("No documents matched the query. Deleted 0 documents.");
+            }
+
+            res.json(result);
+
+        })
+
         //GET API for getting all orders of a specific user
         app.get('/orders', async (req, res) => {
 
