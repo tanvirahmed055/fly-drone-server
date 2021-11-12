@@ -24,6 +24,7 @@ async function run() {
         const usersCollection = database.collection("users");
         const productsCollection = database.collection("products");
         const ordersCollection = database.collection("orders");
+        const reviewsCollection = database.collection("reviews");
 
 
         //GET API for getting all products
@@ -106,6 +107,21 @@ async function run() {
             const query = {};
 
             const cursor = ordersCollection.find(query);
+            // print a message if no documents were found
+            if ((await cursor.count()) === 0) {
+                console.log("No documents found!");
+            }
+
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+
+        //GET API for getting all reviews
+        app.get('/reviews', async (req, res) => {
+            // query for reviews
+            const query = {};
+
+            const cursor = reviewsCollection.find(query);
             // print a message if no documents were found
             if ((await cursor.count()) === 0) {
                 console.log("No documents found!");
