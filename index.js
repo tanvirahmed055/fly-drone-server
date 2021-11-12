@@ -153,7 +153,7 @@ async function run() {
             console.log(userEmail)
             console.log(req.body);
 
-            // create a filter for a movie to update
+            // create a filter for an user to update
             const filter = { email: userEmail };
             console.log(filter);
             // this option instructs the method to create a document if no documents match the filter
@@ -165,6 +165,33 @@ async function run() {
                 },
             };
             const result = await usersCollection.updateOne(filter, updateDoc, options);
+            console.log(
+                `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+            );
+
+
+        })
+
+        //PUT API for making an user admin
+        app.put('/updateStatus', async (req, res) => {
+
+            const orderId = req.body.orderId;
+
+            console.log(orderId)
+            console.log(req.body, orderId);
+
+            // create a filter for a order to update status
+            const filter = { _id: ObjectId(orderId) };
+            console.log(filter);
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: false };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+                $set: {
+                    status: 'shipped'
+                },
+            };
+            const result = await ordersCollection.updateOne(filter, updateDoc, options);
             console.log(
                 `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
             );
