@@ -57,6 +57,23 @@ async function run() {
 
         })
 
+
+        //GET API for getting a userInfo
+        app.get('/user', async (req, res) => {
+
+            const email = req.query.email;
+            console.log(email);
+
+            // Query for a product
+            const query = { email: email };
+
+            const user = await usersCollection.findOne(query);
+
+            res.json(user);
+
+        })
+
+
         //GET API for deleting a order
         app.delete('/deleteOrder/:id', async (req, res) => {
 
