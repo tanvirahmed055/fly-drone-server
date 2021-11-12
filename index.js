@@ -128,6 +128,33 @@ async function run() {
 
         })
 
+        //PUT API for making an user admin
+        app.put('/makeAdmin', async (req, res) => {
+
+            const userEmail = req.body.email;
+
+            console.log(userEmail)
+            console.log(req.body);
+
+            // create a filter for a movie to update
+            const filter = { email: userEmail };
+            console.log(filter);
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: false };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+                $set: {
+                    role: 'admin'
+                },
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            console.log(
+                `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+            );
+
+
+        })
+
     } finally {
         //await client.close();
     }
