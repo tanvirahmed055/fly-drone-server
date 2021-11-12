@@ -145,6 +145,20 @@ async function run() {
 
         })
 
+        //POST API for adding a new product on database
+        app.post('/addProduct', async (req, res) => {
+            const newProduct = req.body;
+            console.log(newProduct);
+
+
+            const result = await productsCollection.insertOne(newProduct);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
+
+        })
+
         //PUT API for making an user admin
         app.put('/makeAdmin', async (req, res) => {
 
