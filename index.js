@@ -20,7 +20,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
+        //database 
         const database = client.db("flyXdrone_Db");
+        //collections
         const usersCollection = database.collection("users");
         const productsCollection = database.collection("products");
         const ordersCollection = database.collection("orders");
@@ -64,7 +66,7 @@ async function run() {
             const email = req.query.email;
             console.log(email);
 
-            // Query for a product
+            // Query for a user
             const query = { email: email };
 
             const user = await usersCollection.findOne(query);
@@ -191,7 +193,7 @@ async function run() {
         app.post('/orders', async (req, res) => {
             const order = req.body;
 
-            console.log(order)
+            //console.log(order)
 
             const result = await ordersCollection.insertOne(order);
 
@@ -204,7 +206,7 @@ async function run() {
         //POST API for adding a new product on database
         app.post('/addProduct', async (req, res) => {
             const newProduct = req.body;
-            console.log(newProduct);
+            //console.log(newProduct);
 
 
             const result = await productsCollection.insertOne(newProduct);
@@ -218,7 +220,7 @@ async function run() {
         //POST API for adding a new review on database
         app.post('/addReview', async (req, res) => {
             const newReview = req.body;
-            console.log(newReview);
+            //console.log(newReview);
 
 
             const result = await reviewsCollection.insertOne(newReview);
@@ -235,8 +237,8 @@ async function run() {
 
             const userEmail = req.body.email;
 
-            console.log(userEmail)
-            console.log(req.body);
+            //console.log(userEmail)
+            //console.log(req.body);
 
             // create a filter for an user to update
             const filter = { email: userEmail };
@@ -262,12 +264,12 @@ async function run() {
 
             const orderId = req.body.orderId;
 
-            console.log(orderId)
-            console.log(req.body, orderId);
+            //console.log(orderId)
+            //console.log(req.body, orderId);
 
             // create a filter for a order to update status
             const filter = { _id: ObjectId(orderId) };
-            console.log(filter);
+            //console.log(filter);
             // this option instructs the method to create a document if no documents match the filter
             const options = { upsert: false };
             // create a document that sets the plot of the movie
