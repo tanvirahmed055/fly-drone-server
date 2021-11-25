@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors')
 require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
+const admin = require("firebase-admin");
 
 
 const app = express()
@@ -12,8 +13,31 @@ const port = process.env.PORT || 5000;
 app.use(cors())
 app.use(express.json())
 
+
+const serviceAccount = require("./fly-drone-firebase-adminsdk.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.oa9tu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+async function verifyToken(req, res, next) {
+    if (req?.headers?.authorization.startsWith('Bearer ')) {
+        const token = req?.headers?.authorization.split(' ')[1];
+        //console.log(token);
+        try {
+            const decodedUser = await admin.auth().verifyIdToken(token);
+            //console.log(decodedUser);
+            req.decodedUserEmail = decodedUser?.email;
+        } catch {
+
+        }
+    }
+    next();
+}
 
 
 
@@ -233,31 +257,42 @@ async function run() {
 
 
         //PUT API for making an user admin
-        app.put('/makeAdmin', async (req, res) => {
+        app.put('/makeAdmin', verifyToken, async (req, res) => {
 
+            //console.log(req.decodedUserEmail);
             const userEmail = req.body.email;
 
-            //console.log(userEmail)
-            //console.log(req.body);
+            const requesterAccountEmail = req.decodedUserEmail;
+            //console.log(requesterAccountEmail);
 
-            // create a filter for an user to update
-            const filter = { email: userEmail };
-            console.log(filter);
-            // this option instructs the method to create a document if no documents match the filter
-            const options = { upsert: false };
-            // create a document that sets the plot of the movie
-            const updateDoc = {
-                $set: {
-                    role: 'admin'
-                },
-            };
-            const result = await usersCollection.updateOne(filter, updateDoc, options);
-            console.log(
-                `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
-            );
+            if (requesterAccountEmail) {
+                const query = { email: requesterAccountEmail };
+                const requsterAccount = await usersCollection.findOne(query);
+                //console.log(requsterAccount.role);
+                if (requsterAccount?.role === 'admin') {
+                    // create a filter for an user to update
+                    const filter = { email: userEmail };
+                    //console.log(filter);
 
+                    // this option instructs the method to create a document if no documents match the filter
+                    const options = { upsert: false };
+                    // create a document that sets the plot of the user
+                    const updateDoc = {
+                        $set: {
+                            role: 'admin'
+                        },
+                    };
+                    const result = await usersCollection.updateOne(filter, updateDoc, options);
+                    console.log(result);
+                    console.log(
+                        `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+                    );
+                }
+            }
 
         })
+
+
 
         //PUT API for making an user admin
         app.put('/updateStatus', async (req, res) => {
