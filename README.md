@@ -1,4 +1,4 @@
-# Project Name: FlyXDrone - A Premium Drone Provider
+# Project Name: FlyXDrone - A Niche Drone Selling Website
 
 
 ## Live Site Link
@@ -8,7 +8,7 @@
 
 ## Short Description
 
-This website is a premium exclusive drone provider website with diverse drone options.
+This website is a premium exclusive drone selling website with diverse drone options available for buying.
 
 
 ### Features & Functionalities
