@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 
-const serviceAccount = require("./fly-drone-firebase-adminsdk.json");
+const serviceAccount = require("./fly-drone-39bce-firebase-adminsdk-t420j-a7a5ca0238.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
