@@ -164,6 +164,19 @@ async function run() {
       res.json(result);
     });
 
+    //GET API for getting a specific order
+    app.get("/orders/:id", async (req, res) => {
+      const orderId = req.params.id;
+      console.log(orderId);
+
+      // Query for a Order
+      const query = { _id: ObjectId(orderId) };
+
+      const order = await ordersCollection.findOne(query);
+
+      res.json(order);
+    });
+
     //GET API for getting all reviews
     app.get("/reviews", async (req, res) => {
       // query for reviews
@@ -295,17 +308,17 @@ async function run() {
       );
     });
 
-        app.post("/create-payment-intent", async (req, res) => {
-          const service = req.body;
-          const price = service.productPrice;
-          const amount = price * 100;
-          const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount,
-            currency: "usd",
-            payment_method_types: ["card"],
-          });
-          res.send({ clientSecret: paymentIntent.client_secret });
-        });
+    app.post("/create-payment-intent", async (req, res) => {
+      const service = req.body;
+      const price = service.productPrice;
+      const amount = price * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: "usd",
+        payment_method_types: ["card"],
+      });
+      res.send({ clientSecret: paymentIntent.client_secret });
+    });
   } finally {
     //await client.close();
   }
