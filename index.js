@@ -280,12 +280,9 @@ async function run() {
       }
     });
 
-    //PUT API for making an user admin
+    //PUT API for updating order status
     app.put("/updateStatus", async (req, res) => {
       const orderId = req.body.orderId;
-
-      //console.log(orderId)
-      //console.log(req.body, orderId);
 
       // create a filter for a order to update status
       const filter = { _id: ObjectId(orderId) };
