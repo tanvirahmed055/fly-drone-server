@@ -290,9 +290,10 @@ async function run() {
       // this option instructs the method to create a document if no documents match the filter
       const options = { upsert: false };
       // create a document that sets the plot of the movie
+
       const updateDoc = {
         $set: {
-          status: "shipped",
+          order_status: "shipped",
         },
       };
       const result = await ordersCollection.updateOne(
@@ -303,6 +304,7 @@ async function run() {
       console.log(
         `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
       );
+      res.json(result);
     });
 
     app.post("/create-payment-intent", async (req, res) => {
