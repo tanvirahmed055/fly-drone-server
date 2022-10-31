@@ -276,6 +276,7 @@ async function run() {
           console.log(
             `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`
           );
+          res.json(result);
         }
       }
     });
