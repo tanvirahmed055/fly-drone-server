@@ -2,4 +2,3 @@ node_modules
 .env
 .env.local
 fly-drone-39bce-firebase-adminsdk-t420j-a7a5ca0238.json
-vercel.json
