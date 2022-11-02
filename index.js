@@ -132,12 +132,12 @@ async function run() {
     //GET API for getting all orders of a specific user
     app.get("/orders", async (req, res) => {
       const email = req.query.email;
-      //console.log(email);
+      console.log("cecking order", email);
 
       // Query for orders with this email
       const query = { email: email };
 
-      const cursor = await ordersCollection.find(query);
+      const cursor = ordersCollection.find(query);
 
       // print a message if no documents were found
       if ((await cursor.count()) === 0) {
