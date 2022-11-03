@@ -12,6 +12,8 @@ This website is a premium exclusive drone selling website with diverse drone opt
 
 - Clients can see the in detail information of our drones along with the unique features that we offer in our drones.
 
+- Clients can sign in using one or more sign-in methods, including email address and password sign-in, or federated identity providers such as Google Sign-in.
+
 - Only registered users will be able to purchase drone from this site and in order to place an order to purchase drone, users need to be logged in the site first.
 
 - Clients and Admins have separate dashboards for themselves. They can only access their resective dashboards.
