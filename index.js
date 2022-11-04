@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const serviceAccount = require("./fly-drone-39bce-firebase-adminsdk-t420j-a7a5ca0238.json");
+const serviceAccount = require("./fly-drone-39bce-firebase-adminsdk-t420j-f06904c4b9.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
