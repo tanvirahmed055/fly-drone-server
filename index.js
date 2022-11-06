@@ -248,11 +248,11 @@ async function run() {
 
     //PUT API for making an user admin
     app.put("/makeAdmin", verifyToken, async (req, res) => {
-      //console.log(req.decodedUserEmail);
+      console.log("req.decodedUserEmail", req.decodedUserEmail);
       const userEmail = req.body.email;
 
       const requesterAccountEmail = req.decodedUserEmail;
-      //console.log(requesterAccountEmail);
+      console.log("requesterAccountEmail", requesterAccountEmail);
 
       if (requesterAccountEmail) {
         const query = { email: requesterAccountEmail };
@@ -314,10 +314,10 @@ async function run() {
 
     app.post("/create-payment-intent", async (req, res) => {
       const service = req.body;
-      const price = service.productPrice;
-      const amount = price * 100;
+      const total_amount = service.total_amount;
+      const converted_amount = total_amount * 100;
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount,
+        amount: converted_amount,
         currency: "usd",
         payment_method_types: ["card"],
       });
