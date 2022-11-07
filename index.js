@@ -197,10 +197,22 @@ async function run() {
       const email = req.params.email;
       const user = req.body;
       const filter = { email: email };
+      const userData = await usersCollection.findOne(filter);
+      let updateDoc;
+      if (userData) {
+        updateDoc = {
+          $set: {
+            name: userData.name,
+            email: userData.email,
+            role: userData.role,
+          },
+        };
+      } else if (!userData) {
+        updateDoc = {
+          $set: user,
+        };
+      }
       const options = { upsert: true };
-      const updateDoc = {
-        $set: user,
-      };
       const result = await usersCollection.updateOne(
         filter,
         updateDoc,
